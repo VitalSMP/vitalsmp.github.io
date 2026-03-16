@@ -46,6 +46,11 @@ body {
   color: var(--vital-accent) !important;
 }
 
+.navbar-nav .btn-vital.active {
+  background-color: #27ae60;
+  color: #fff;
+}
+
 /* Hero Carousel */
 #heroCarousel {
   width: 100%;
@@ -159,6 +164,11 @@ body {
 /* Section styles */
 section {
   padding: 80px 0;
+}
+
+section[id],
+#heroCarousel {
+  scroll-margin-top: 90px;
 }
 
 .section-title {
