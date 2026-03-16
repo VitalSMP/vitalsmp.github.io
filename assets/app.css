@@ -1,11 +1,11 @@
 /* VitalSMP - Custom Styles */
 
 :root {
-  --vital-green: #2d9e4f;
+  --vital-green: #9d4edd;
   --vital-dark: #1a1a2e;
   --vital-darker: #0f0f1a;
   --vital-light: #e8f5e9;
-  --vital-accent: #4caf50;
+  --vital-accent: #c77dff;
 }
 
 /* General */
@@ -18,7 +18,7 @@ body {
 /* Navbar */
 .navbar {
   background-color: rgba(15, 15, 26, 0.95) !important;
-  border-bottom: 2px solid var(--vital-green);
+  border-bottom: 2px solid #9d4edd;
   padding: 0.75rem 1rem;
 }
 
@@ -28,10 +28,32 @@ body {
   letter-spacing: 1px;
   color: var(--vital-accent) !important;
   text-transform: uppercase;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.brand-icon {
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+  border-radius: 6px;
 }
 
 .navbar-brand span {
   color: #ffffff;
+}
+
+.navbar .navbar-toggler {
+  border-color: rgba(199, 125, 255, 0.6);
+}
+
+.navbar .navbar-toggler:focus {
+  box-shadow: 0 0 0 0.2rem rgba(199, 125, 255, 0.35);
+}
+
+.navbar .navbar-toggler-icon {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255,255,255,0.95%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
 }
 
 .navbar-nav .nav-link {
@@ -47,33 +69,26 @@ body {
 }
 
 .navbar-nav .btn-vital.active {
-  background-color: #27ae60;
+  background-color: #b5179e;
   color: #fff;
 }
 
 /* Hero Carousel */
 #heroCarousel {
   width: 100%;
-}
-
-#heroCarousel .carousel-inner {
   height: 100vh;
   min-height: 500px;
-}
-
-#heroCarousel .carousel-item {
-  height: 100vh;
-  min-height: 500px;
+  position: relative;
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  position: relative;
 }
 
-.carousel-item::after {
+#heroCarousel::after {
   content: '';
   position: absolute;
   inset: 0;
+  pointer-events: none;
   background: linear-gradient(
     to bottom,
     rgba(0, 0, 0, 0.35) 0%,
@@ -82,9 +97,22 @@ body {
 }
 
 .carousel-caption {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(90%, 900px);
   z-index: 2;
   bottom: 20%;
   text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
+}
+
+.hero-title-icon {
+  width: 128px;
+  height: 128px;
+  object-fit: contain;
+  border-radius: 16px;
+  margin-bottom: 0.8rem;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.45);
 }
 
 .carousel-caption h2 {
@@ -116,13 +144,40 @@ body {
 }
 
 .carousel-caption .btn-join:hover {
-  background-color: #27ae60;
+  background-color: #b5179e;
   transform: translateY(-2px);
 }
 
 .carousel-control-prev-icon,
 .carousel-control-next-icon {
   filter: drop-shadow(0 0 4px rgba(0, 0, 0, 0.8));
+}
+
+.carousel-control-prev,
+.carousel-control-next {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 50px;
+  height: 50px;
+  z-index: 5;
+  background-color: rgba(157, 78, 221, 0.3);
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.carousel-control-prev {
+  left: 1rem;
+}
+
+.carousel-control-next {
+  right: 1rem;
+}
+
+.carousel-control-prev:hover,
+.carousel-control-next:hover {
+  background-color: rgba(157, 78, 221, 0.6);
 }
 
 .carousel-indicators [data-bs-target] {
@@ -189,7 +244,7 @@ section[id],
 .divider {
   width: 60px;
   height: 4px;
-  background-color: var(--vital-green);
+  background-color: #9d4edd;
   margin: 0.75rem auto 1.5rem;
   border-radius: 2px;
 }
@@ -201,7 +256,7 @@ section[id],
 
 .about-card {
   background-color: #1a1a2e;
-  border: 1px solid rgba(45, 158, 79, 0.3);
+  border: 1px solid rgba(157, 78, 221, 0.3);
   border-radius: 8px;
   padding: 2rem;
   height: 100%;
@@ -248,8 +303,8 @@ section[id],
   flex-shrink: 0;
   width: 50px;
   height: 50px;
-  background-color: rgba(45, 158, 79, 0.15);
-  border: 1px solid var(--vital-green);
+  background-color: rgba(157, 78, 221, 0.15);
+  border: 1px solid #9d4edd;
   border-radius: 8px;
   display: flex;
   align-items: center;
@@ -272,7 +327,7 @@ section[id],
 
 .features-image-placeholder {
   background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-  border: 1px solid rgba(45, 158, 79, 0.3);
+  border: 1px solid rgba(157, 78, 221, 0.3);
   border-radius: 8px;
   width: 100%;
   aspect-ratio: 4/3;
@@ -294,7 +349,7 @@ section[id],
   padding: 1.25rem;
   background-color: #1a1a2e;
   border-radius: 8px;
-  border-left: 4px solid var(--vital-green);
+  border-left: 4px solid #9d4edd;
   margin-bottom: 1rem;
   transition: transform 0.2s;
 }
@@ -307,7 +362,7 @@ section[id],
   flex-shrink: 0;
   width: 32px;
   height: 32px;
-  background-color: var(--vital-green);
+  background-color: #9d4edd;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -331,14 +386,14 @@ section[id],
 
 /* Join Section */
 #join {
-  background: linear-gradient(135deg, #1a2e1a 0%, #0f1f0f 100%);
-  border-top: 2px solid var(--vital-green);
-  border-bottom: 2px solid var(--vital-green);
+  background: linear-gradient(135deg, #2e1a3e 0%, #1f0f2f 100%);
+  border-top: 2px solid #9d4edd;
+  border-bottom: 2px solid #9d4edd;
 }
 
 .server-ip-box {
   background-color: rgba(0, 0, 0, 0.4);
-  border: 2px dashed var(--vital-green);
+  border: 2px dashed #9d4edd;
   border-radius: 8px;
   padding: 1.5rem 2rem;
   display: inline-block;
@@ -361,6 +416,15 @@ section[id],
   font-family: 'Courier New', monospace;
 }
 
+#serverIpCopyable {
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+#serverIpCopyable:hover {
+  opacity: 0.8;
+}
+
 .btn-vital {
   background-color: var(--vital-green);
   color: #fff;
@@ -373,7 +437,7 @@ section[id],
 }
 
 .btn-vital:hover {
-  background-color: #27ae60;
+  background-color: #b5179e;
   color: #fff;
   transform: translateY(-2px);
 }
@@ -381,7 +445,7 @@ section[id],
 .btn-vital-outline {
   background-color: transparent;
   color: var(--vital-accent);
-  border: 2px solid var(--vital-green);
+  border: 2px solid #9d4edd;
   padding: 0.65rem 1.75rem;
   font-weight: 600;
   border-radius: 4px;
@@ -402,7 +466,7 @@ section[id],
 
 .team-card {
   background-color: #16213e;
-  border: 1px solid rgba(45, 158, 79, 0.25);
+  border: 1px solid rgba(157, 78, 221, 0.25);
   border-radius: 8px;
   padding: 1.75rem 1.5rem;
   text-align: center;
@@ -418,13 +482,13 @@ section[id],
   width: 80px;
   height: 80px;
   border-radius: 50%;
-  background: linear-gradient(135deg, var(--vital-green) 0%, #1a1a2e 100%);
+  background: linear-gradient(135deg, #9d4edd 0%, #1a1a2e 100%);
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 2rem;
   margin: 0 auto 1rem;
-  border: 2px solid var(--vital-green);
+  border: 2px solid #9d4edd;
 }
 
 .team-card h5 {
@@ -450,7 +514,7 @@ section[id],
 /* Footer */
 footer {
   background-color: #080810;
-  border-top: 2px solid rgba(45, 158, 79, 0.4);
+  border-top: 2px solid rgba(157, 78, 221, 0.4);
   padding: 3rem 0 1.5rem;
   color: #888888;
 }
@@ -461,6 +525,9 @@ footer .footer-brand {
   color: var(--vital-accent);
   text-transform: uppercase;
   letter-spacing: 1px;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
 footer .footer-brand span {
@@ -532,6 +599,12 @@ footer .social-links a:hover {
 
 /* Responsive tweaks */
 @media (max-width: 768px) {
+  .hero-title-icon {
+    width: 92px;
+    height: 92px;
+    margin-bottom: 0.6rem;
+  }
+
   .carousel-caption h2 {
     font-size: 1.8rem;
   }

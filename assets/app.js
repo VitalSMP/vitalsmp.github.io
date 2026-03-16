@@ -51,7 +51,8 @@
       .map(a => a.getAttribute('href'))
       .filter(Boolean)
       .map(hash => ({ hash, el: document.getElementById(hash.slice(1)) }))
-      .filter(item => !!item.el);
+      .filter(item => !!item.el)
+      .sort((a, b) => a.el.offsetTop - b.el.offsetTop);
 
     if (!sections.length) return;
 
@@ -87,8 +88,42 @@
 
   function initPageBehavior() {
     const heroCarousel = document.getElementById('heroCarousel');
-    if (heroCarousel && window.bootstrap && window.bootstrap.Carousel) {
-      window.bootstrap.Carousel.getOrCreateInstance(heroCarousel);
+    if (
+      heroCarousel &&
+      heroCarousel.classList.contains('carousel') &&
+      window.bootstrap &&
+      window.bootstrap.Carousel
+    ) {
+      const carousel = window.bootstrap.Carousel.getOrCreateInstance(heroCarousel);
+
+      const prevBtn = heroCarousel.querySelector('.carousel-control-prev');
+      const nextBtn = heroCarousel.querySelector('.carousel-control-next');
+
+      if (prevBtn && !prevBtn.dataset.bound) {
+        prevBtn.addEventListener('click', e => {
+          e.preventDefault();
+          carousel.prev();
+        });
+        prevBtn.dataset.bound = 'true';
+      }
+
+      if (nextBtn && !nextBtn.dataset.bound) {
+        nextBtn.addEventListener('click', e => {
+          e.preventDefault();
+          carousel.next();
+        });
+        nextBtn.dataset.bound = 'true';
+      }
+
+      heroCarousel.querySelectorAll('.carousel-indicators [data-bs-slide-to]').forEach(indicator => {
+        if (indicator.dataset.bound) return;
+        indicator.addEventListener('click', e => {
+          e.preventDefault();
+          const slideIndex = Number.parseInt(indicator.getAttribute('data-bs-slide-to') || '0', 10);
+          carousel.to(slideIndex);
+        });
+        indicator.dataset.bound = 'true';
+      });
     }
 
     const contactForm = document.getElementById('contactForm');
@@ -104,6 +139,46 @@
       }, { once: true });
     }
 
+    /* Server IP click-to-copy */
+    const serverIpElement = document.getElementById('serverIpCopyable');
+    if (serverIpElement && !serverIpElement.dataset.bound) {
+      serverIpElement.addEventListener('click', async () => {
+        const ipText = (serverIpElement.textContent || '').trim();
+        if (!ipText) return;
+
+        let copied = false;
+
+        try {
+          if (navigator.clipboard && window.isSecureContext) {
+            await navigator.clipboard.writeText(ipText);
+            copied = true;
+          }
+        } catch (err) {
+          copied = false;
+        }
+
+        if (!copied) {
+          const textArea = document.createElement('textarea');
+          textArea.value = ipText;
+          textArea.setAttribute('readonly', '');
+          textArea.style.position = 'fixed';
+          textArea.style.opacity = '0';
+          document.body.appendChild(textArea);
+          textArea.select();
+          copied = document.execCommand('copy');
+          document.body.removeChild(textArea);
+        }
+
+        const originalText = ipText;
+        serverIpElement.textContent = copied ? 'Copied!' : 'Copy failed';
+        setTimeout(() => {
+          serverIpElement.textContent = originalText;
+        }, 1800);
+      });
+
+      serverIpElement.dataset.bound = 'true';
+    }
+
     if (location.hash) {
       const target = document.querySelector(location.hash);
       if (target) {
@@ -113,6 +188,16 @@
     } else {
       updateActiveSectionFromScroll();
     }
+  }
+
+  function closeNavbarCollapse() {
+    const mainNav = document.getElementById('mainNav');
+    if (!mainNav || !window.bootstrap || !window.bootstrap.Collapse) return;
+
+    const isExpanded = mainNav.classList.contains('show');
+    if (!isExpanded) return;
+
+    window.bootstrap.Collapse.getOrCreateInstance(mainNav).hide();
   }
 
   /* Load a page by URL path */
@@ -193,6 +278,7 @@
     a.addEventListener('click', e => {
       e.preventDefault();
       navigate(a.dataset.route);
+      closeNavbarCollapse();
     });
   });
 
@@ -202,6 +288,7 @@
       if (hash) {
         setActiveHash(hash);
       }
+      closeNavbarCollapse();
     });
   });
 
@@ -248,7 +335,10 @@
   }
 
   /* Initial load — honour GitHub Pages 404.html redirect */
-  document.getElementById('year').textContent = new Date().getFullYear();
+  const yearEl = document.getElementById('year');
+  if (yearEl) {
+    yearEl.textContent = new Date().getFullYear();
+  }
   const redirectPath = sessionStorage.getItem('spa:redirect');
   if (redirectPath) {
     sessionStorage.removeItem('spa:redirect');
