@@ -342,6 +342,15 @@
   const redirectPath = sessionStorage.getItem('spa:redirect');
   if (redirectPath) {
     sessionStorage.removeItem('spa:redirect');
+
+    /* External redirects */
+    const externalRoutes = {
+      '/discord': 'https://discord.gg/e3MMfgQJWT',
+    };
+    if (Object.prototype.hasOwnProperty.call(externalRoutes, redirectPath)) {
+      location.replace(externalRoutes[redirectPath]);
+      return;
+    }
   }
 
   if (location.pathname !== '/') {
